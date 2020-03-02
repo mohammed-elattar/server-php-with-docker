@@ -5,7 +5,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: docker/Dockerfile
     image: digitalocean.com/php
     container_name: appContributing
     restart: unless-stopped
@@ -16,7 +16,7 @@ services:
     working_dir: /var/www
     volumes:
       - ./:/var/www
-      - ./php/local.ini:/usr/local/etc/php/php.ini
+      - ./docker/php/local.ini:/usr/local/etc/php/php.ini
     networks:
       - app-network
 
@@ -31,7 +31,7 @@ services:
       - "443:443"
     volumes:
       - ./:/var/www
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
     networks:
       - app-network
 
@@ -48,7 +48,7 @@ services:
       MYSQL_PORT: 3306
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - ./db/:/docker-entrypoint-initdb.d
+      - ./docker/db/:/docker-entrypoint-initdb.d
     networks:
       - app-network
   phpmyadmin:
@@ -72,4 +72,3 @@ networks:
 volumes:
   dbdata:
     driver: local
-
